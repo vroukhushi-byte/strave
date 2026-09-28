@@ -3,420 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>STRAVE WORLD</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
+  <title>STRAVE — World</title>
   <link rel="stylesheet" href="style.css">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
 
-  <!-- LOADING -->
   <div id="loading">
-    <div class="loading-logo">STRAVE</div>
-    <div class="loading-text">Entering your world...</div>
+    <div class="logo">S</div>
+    <h1>STRAVE</h1>
+    <p>Entering World...</p>
     <div class="loader"></div>
   </div>
 
-  <!-- TOP BAR -->
+  <div id="game"></div>
+
   <header class="topbar">
     <div class="brand">
-      <div class="brand-name">STRAVE</div>
-      <div class="brand-sub">YOUR DIGITAL WORLD</div>
+      <span class="brand-dot"></span>
+      STRAVE
     </div>
 
     <div class="world-status">
-      <span class="online-dot"></span>
-      WORLD ONLINE
+      <span id="clock">12:00</span>
+      <span>● WORLD</span>
     </div>
 
-    <button class="profile-btn" onclick="openPanel('avatarPanel')">
-      <span>🧶</span>
-      <span>MY WORLD</span>
-    </button>
+    <button id="mapBtn" class="icon-btn">🗺️</button>
   </header>
 
-  <!-- 3D WORLD -->
-  <main id="world"></main>
+  <section class="location-card glass">
+    <small>YOU ARE IN</small>
+    <h2 id="locationName">STRAVE World</h2>
+    <p id="locationDescription">
+      Explore the world and discover new places.
+    </p>
+    <button id="interactBtn" class="primary-btn">
+      Explore
+    </button>
+  </section>
 
-  <!-- LOCATION -->
-  <div class="location-pill">
-    📍 <span id="locationName">My Amigurumi Home</span>
+  <div class="hint glass">
+    WASD / Arrow Keys to move · E to interact
   </div>
 
-  <!-- WORLD CONTROLS -->
-  <div class="world-controls">
-    <button onclick="toggleDayNight()">☀️</button>
-    <button onclick="openPanel('mapPanel')">🗺️</button>
-    <button onclick="openArcade()">🎮</button>
+  <div class="mobile-controls">
+    <button data-key="up">▲</button>
+    <div>
+      <button data-key="left">◀</button>
+      <button data-key="down">▼</button>
+      <button data-key="right">▶</button>
+    </div>
   </div>
 
-  <!-- XP -->
-  <div class="xp-box">
-    <div class="xp-top">
-      <span>STRAVE XP</span>
-      <strong id="xpText">0 XP</strong>
-    </div>
-
-    <div class="xp-bar">
-      <div id="xpFill"></div>
-    </div>
-
-    <small id="levelText">Level 1</small>
+  <div class="actions">
+    <button id="actionBtn">E</button>
+    <button id="homeBtn">⌂</button>
   </div>
 
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav">
-
-    <button onclick="goHome()">
-      <span>🏠</span>
-      <small>Home</small>
-    </button>
-
-    <button onclick="openPanel('friendsPanel')">
-      <span>👯</span>
-      <small>Friends</small>
-    </button>
-
-    <button onclick="openArcade()">
-      <span>🎮</span>
-      <small>Arcade</small>
-    </button>
-
-    <button onclick="openPanel('creatorPanel')">
-      <span>✨</span>
-      <small>Creator</small>
-    </button>
-
-    <button onclick="openPanel('businessPanel')">
-      <span>💼</span>
-      <small>Business</small>
-    </button>
-
-    <button onclick="openPanel('aiPanel')">
-      <span>🤖</span>
-      <small>STRAVE AI</small>
-    </button>
-
-  </nav>
-
-  <!-- AVATAR PANEL -->
-  <section class="panel" id="avatarPanel">
-
-    <button class="close-btn" onclick="closePanels()">×</button>
-
-    <div class="panel-icon">🧶</div>
-
-    <h2>My Avatar</h2>
-    <p class="muted">This is your identity inside STRAVE WORLD.</p>
-
-    <div class="avatar-preview">
-      <div class="big-avatar">🧶</div>
-    </div>
-
-    <div class="profile-info">
-      <div>
-        <span>Name</span>
-        <strong>Your STRAVE Avatar</strong>
-      </div>
-
-      <div>
-        <span>Status</span>
-        <strong>Exploring STRAVE WORLD</strong>
-      </div>
-
-      <div>
-        <span>Level</span>
-        <strong id="avatarLevel">Level 1</strong>
-      </div>
-    </div>
-
-    <button class="primary-btn" onclick="addXP(50)">
-      ✨ Earn 50 XP
-    </button>
-
-  </section>
-
-  <!-- FRIENDS -->
-  <section class="panel" id="friendsPanel">
-
-    <button class="close-btn" onclick="closePanels()">×</button>
-
-    <div class="panel-icon">👯</div>
-
-    <h2>Friends Village</h2>
-    <p class="muted">
-      Meet people, discover profiles and build your social life.
-    </p>
-
-    <div class="friend-card">
-      <div class="friend-avatar">🧸</div>
-      <div>
-        <strong>Mia</strong>
-        <span>Exploring Forest</span>
-      </div>
-      <button onclick="showToast('Friend request sent!')">＋</button>
-    </div>
-
-    <div class="friend-card">
-      <div class="friend-avatar">🐰</div>
-      <div>
-        <strong>Luna</strong>
-        <span>At Creator District</span>
-      </div>
-      <button onclick="showToast('Profile opened!')">→</button>
-    </div>
-
-    <div class="friend-card">
-      <div class="friend-avatar">🐻</div>
-      <div>
-        <strong>Aria</strong>
-        <span>At STRAVE Arcade</span>
-      </div>
-      <button onclick="showToast('Invite sent!')">＋</button>
-    </div>
-
-  </section>
-
-  <!-- CREATOR -->
-  <section class="panel" id="creatorPanel">
-
-    <button class="close-btn" onclick="closePanels()">×</button>
-
-    <div class="panel-icon">✨</div>
-
-    <h2>Creator District</h2>
-
-    <p class="muted">
-      Your creator life inside STRAVE.
-    </p>
-
-    <div class="feature-card">
-      <span>💡</span>
-      <div>
-        <strong>Content Ideas</strong>
-        <p>Discover ideas for your next post or reel.</p>
-      </div>
-    </div>
-
-    <div class="feature-card">
-      <span>📊</span>
-      <div>
-        <strong>Creator Analytics</strong>
-        <p>Understand your audience and content performance.</p>
-      </div>
-    </div>
-
-    <div class="feature-card">
-      <span>🚀</span>
-      <div>
-        <strong>Growth Tools</strong>
-        <p>Plan your organic creator growth.</p>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- BUSINESS -->
-  <section class="panel" id="businessPanel">
-
-    <button class="close-btn" onclick="closePanels()">×</button>
-
-    <div class="panel-icon">💼</div>
-
-    <h2>Business District</h2>
-
-    <p class="muted">
-      Build, connect and grow your business inside STRAVE.
-    </p>
-
-    <div class="feature-card">
-      <span>🤝</span>
-      <div>
-        <strong>Networking</strong>
-        <p>Meet creators, founders and professionals.</p>
-      </div>
-    </div>
-
-    <div class="feature-card">
-      <span>📈</span>
-      <div>
-        <strong>Business Growth</strong>
-        <p>Discover collaboration and growth opportunities.</p>
-      </div>
-    </div>
-
-    <div class="feature-card">
-      <span>🧠</span>
-      <div>
-        <strong>Strategy Space</strong>
-        <p>Plan ideas, projects and business moves.</p>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- AI -->
-  <section class="panel" id="aiPanel">
-
-    <button class="close-btn" onclick="closePanels()">×</button>
-
-    <div class="panel-icon">🤖</div>
-
-    <h2>STRAVE AI</h2>
-
-    <p class="muted">
-      Your AI companion inside STRAVE WORLD.
-    </p>
-
-    <div class="ai-chat" id="aiChat">
-      <div class="ai-message">
-        Hey! I'm STRAVE AI. Ask me about content, growth or business.
-      </div>
-    </div>
-
-    <div class="ai-input">
-      <input
-        id="aiInput"
-        placeholder="Ask STRAVE AI..."
-        onkeydown="if(event.key==='Enter') askAI()"
-      >
-
-      <button onclick="askAI()">→</button>
-    </div>
-
-  </section>
-
-  <!-- WORLD MAP -->
-  <section class="panel map-panel" id="mapPanel">
-
-    <button class="close-btn" onclick="closePanels()">×</button>
-
-    <div class="panel-icon">🗺️</div>
-
-    <h2>STRAVE WORLD MAP</h2>
-
-    <p class="muted">
-      Explore the different districts of your world.
-    </p>
-
-    <div class="map-grid">
-
-      <button onclick="travelTo('My Amigurumi Home')">
-        🏠
-        <span>Home</span>
-      </button>
-
-      <button onclick="travelTo('Friends Village')">
-        👯
-        <span>Friends Village</span>
-      </button>
-
-      <button onclick="travelTo('Creator District')">
-        ✨
-        <span>Creator District</span>
-      </button>
-
-      <button onclick="travelTo('Business District')">
-        💼
-        <span>Business District</span>
-      </button>
-
-      <button onclick="travelTo('AI Lab')">
-        🤖
-        <span>AI Lab</span>
-      </button>
-
-      <button onclick="travelTo('Discovery Forest')">
-        🌲
-        <span>Discovery Forest</span>
-      </button>
-
-      <button onclick="travelTo('Beach')">
-        🏖️
-        <span>Beach</span>
-      </button>
-
-      <button onclick="travelTo('STRAVE Arcade')">
-        🎮
-        <span>STRAVE Arcade</span>
-      </button>
-
-    </div>
-
-  </section>
-
-  <!-- ARCADE -->
-  <section class="arcade" id="arcadePanel">
-
-    <button class="close-btn" onclick="closeArcade()">×</button>
-
-    <div id="arcadeHome">
-
-      <div class="panel-icon">🎮</div>
-
-      <h1>STRAVE ARCADE</h1>
-
-      <p>
-        Play. Explore. Earn XP. Unlock your world.
-      </p>
-
-      <div class="games-grid">
-
-        <button class="game-card" onclick="startGame('racing')">
-          <div class="game-art">🏎️</div>
-          <strong>Amigurumi Racing</strong>
-          <span>Dodge obstacles & race.</span>
-          <small>+100 XP</small>
-        </button>
-
-        <button class="game-card" onclick="startGame('treasure')">
-          <div class="game-art">💎</div>
-          <strong>Treasure Hunt</strong>
-          <span>Find hidden treasures.</span>
-          <small>+150 XP</small>
-        </button>
-
-        <button class="game-card" onclick="startGame('trivia')">
-          <div class="game-art">🧠</div>
-          <strong>STRAVE Trivia</strong>
-          <span>Test your knowledge.</span>
-          <small>+100 XP</small>
-        </button>
-
-        <button class="game-card" onclick="startGame('obstacle')">
-          <div class="game-art">🏃‍♀️</div>
-          <strong>Obstacle Run</strong>
-          <span>Jump and survive.</span>
-          <small>+120 XP</small>
-        </button>
-
-        <button class="game-card" onclick="startGame('fashion')">
-          <div class="game-art">👗</div>
-          <strong>Avatar Challenge</strong>
-          <span>Create your best look.</span>
-          <small>+100 XP</small>
-        </button>
-
-      </div>
-
-    </div>
-
-    <!-- GAME SCREEN -->
-    <div id="gameScreen"></div>
-
-  </section>
-
-  <!-- TOAST -->
   <div id="toast"></div>
 
-  <script src="script.js"></script>
+  <!-- WORLD MAP -->
+
+  <div id="mapModal" class="modal hidden">
+
+    <div class="modal-panel glass">
+
+      <div class="modal-header">
+        <div>
+          <small>STRAVE WORLD</small>
+          <h2>World Map</h2>
+        </div>
+
+        <button id="closeMap">×</button>
+      </div>
+
+      <div id="mapGrid" class="map-grid"></div>
+
+    </div>
+
+  </div>
+
+  <!-- SOCIAL PANEL -->
+
+  <div id="socialPanel" class="modal hidden">
+
+    <div class="modal-panel glass">
+
+      <div class="modal-header">
+
+        <div>
+          <small>SOCIAL LAYER</small>
+          <h2 id="socialTitle">STRAVE</h2>
+        </div>
+
+        <button id="closeSocial">×</button>
+
+      </div>
+
+      <div class="social-content">
+
+        <div class="social-icon">✦</div>
+
+        <p id="socialText">
+          STRAVE social features will connect to the backend.
+        </p>
+
+        <span class="backend">
+          BACKEND READY
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="script.js"></script>
 
 </body>
 </html>
