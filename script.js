@@ -2336,3 +2336,1143 @@ function askAI() {
 
     const text =
         input.value.trim();
+
+
+    if (!text)
+        return;
+
+
+    const chat =
+        document.getElementById(
+            "aiChat"
+        );
+
+
+    const userMessage =
+        document.createElement(
+            "div"
+        );
+
+
+    userMessage.className =
+        "user-message";
+
+    userMessage.textContent =
+        text;
+
+
+    chat.appendChild(
+        userMessage
+    );
+
+
+    input.value = "";
+
+
+    setTimeout(
+        () => {
+
+            const reply =
+                document.createElement(
+                    "div"
+                );
+
+
+            reply.className =
+                "ai-message";
+
+
+            const lower =
+                text.toLowerCase();
+
+
+            if (
+                lower.includes(
+                    "content"
+                )
+            ) {
+
+                reply.textContent =
+                    "Let's build a content idea around your audience, emotion and current goal. Real STRAVE AI can later connect to a secure AI backend.";
+
+            } else if (
+                lower.includes(
+                    "growth"
+                )
+            ) {
+
+                reply.textContent =
+                    "Growth starts with understanding your audience, creating consistent value and improving through analytics.";
+
+            } else if (
+                lower.includes(
+                    "business"
+                )
+            ) {
+
+                reply.textContent =
+                    "STRAVE Business can help with strategy, networking, collaborations and business development once the backend is connected.";
+
+            } else {
+
+                reply.textContent =
+                    "I'm your STRAVE AI prototype. A secure backend connection is required for real AI conversations.";
+            }
+
+
+            chat.appendChild(
+                reply
+            );
+
+
+            chat.scrollTop =
+                chat.scrollHeight;
+
+        },
+        500
+    );
+}
+
+
+/* =========================================================
+   ARCADE GAME SYSTEM
+   ========================================================= */
+
+function startGame(game) {
+
+    document.getElementById(
+        "arcadeHome"
+    ).style.display =
+        "none";
+
+
+    const screen =
+        document.getElementById(
+            "gameScreen"
+        );
+
+
+    screen.innerHTML = "";
+
+
+    clearInterval(
+        gameTimer
+    );
+
+
+    gameScore = 0;
+
+
+    if (game === "racing")
+        startRacing(screen);
+
+    if (game === "treasure")
+        startTreasure(screen);
+
+    if (game === "trivia")
+        startTrivia(screen);
+
+    if (game === "obstacle")
+        startObstacle(screen);
+
+    if (game === "fashion")
+        startFashion(screen);
+}
+
+
+function backToArcade() {
+
+    clearInterval(
+        gameTimer
+    );
+
+
+    document.getElementById(
+        "gameScreen"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "arcadeHome"
+    ).style.display =
+        "block";
+}
+
+
+/* =========================================================
+   RACING
+   ========================================================= */
+
+function startRacing(screen) {
+
+    screen.innerHTML = `
+
+        <div class="game-header">
+
+            <strong>
+                🏎️ Amigurumi Racing
+            </strong>
+
+            <span id="raceScore">
+                Score: 0
+            </span>
+
+            <button
+                class="back-game"
+                onclick="backToArcade()"
+            >
+                Back
+            </button>
+
+        </div>
+
+
+        <div
+            class="game-area"
+            id="raceArea"
+        >
+
+            <div class="race-road"></div>
+
+            <div
+                class="player-car"
+                id="playerCar"
+            >
+                🏎️
+            </div>
+
+        </div>
+
+
+        <p style="margin-top:10px;opacity:.6;">
+            Tap left/right side to move.
+        </p>
+    `;
+
+
+    const area =
+        document.getElementById(
+            "raceArea"
+        );
+
+
+    const player =
+        document.getElementById(
+            "playerCar"
+        );
+
+
+    let lane = 1;
+
+
+    const lanes = [
+        30,
+        50,
+        70
+    ];
+
+
+    function move(direction) {
+
+        lane += direction;
+
+
+        lane =
+            Math.max(
+                0,
+                Math.min(
+                    2,
+                    lane
+                )
+            );
+
+
+        player.style.left =
+            lanes[lane] +
+            "%";
+    }
+
+
+    function keyHandler(e) {
+
+        if (
+            e.key ===
+            "ArrowLeft"
+        )
+            move(-1);
+
+        if (
+            e.key ===
+            "ArrowRight"
+        )
+            move(1);
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        keyHandler
+    );
+
+
+    area.addEventListener(
+        "click",
+        e => {
+
+            const rect =
+                area.getBoundingClientRect();
+
+
+            if (
+                e.clientX <
+                rect.left +
+                rect.width / 2
+            ) {
+
+                move(-1);
+
+            } else {
+
+                move(1);
+            }
+        }
+    );
+
+
+    let score = 0;
+
+
+    gameTimer =
+        setInterval(
+            () => {
+
+                score += 10;
+
+
+                document.getElementById(
+                    "raceScore"
+                ).textContent =
+                    "Score: " +
+                    score;
+
+
+                const obstacle =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                obstacle.className =
+                    "race-obstacle";
+
+
+                obstacle.textContent =
+                    "🚧";
+
+
+                obstacle.style.left =
+                    lanes[
+                        Math.floor(
+                            Math.random() *
+                            3
+                        )
+                    ] +
+                    "%";
+
+
+                area.appendChild(
+                    obstacle
+                );
+
+
+                let y = -50;
+
+
+                const movement =
+                    setInterval(
+                        () => {
+
+                            y += 5;
+
+
+                            obstacle.style.top =
+                                y +
+                                "px";
+
+
+                            if (
+                                y >
+                                430
+                            ) {
+
+                                obstacle.remove();
+
+                                clearInterval(
+                                    movement
+                                );
+                            }
+
+                        },
+                        40
+                    );
+
+            },
+            1000
+        );
+
+
+    setTimeout(
+        () => {
+
+            clearInterval(
+                gameTimer
+            );
+
+
+            document.removeEventListener(
+                "keydown",
+                keyHandler
+            );
+
+
+            addXP(100);
+
+
+            showToast(
+                "Race complete! 🏁 +100 XP"
+            );
+
+        },
+        15000
+    );
+}
+
+
+/* =========================================================
+   TREASURE
+   ========================================================= */
+
+function startTreasure(screen) {
+
+    screen.innerHTML = `
+
+        <div class="game-header">
+
+            <strong>
+                💎 Treasure Hunt
+            </strong>
+
+            <span id="treasureScore">
+                0 / 5
+            </span>
+
+            <button
+                class="back-game"
+                onclick="backToArcade()"
+            >
+                Back
+            </button>
+
+        </div>
+
+
+        <div
+            class="game-area"
+            id="treasureArea"
+        ></div>
+
+
+        <p style="margin-top:10px;opacity:.6;">
+            Find all five hidden treasures.
+        </p>
+    `;
+
+
+    const area =
+        document.getElementById(
+            "treasureArea"
+        );
+
+
+    let found = 0;
+
+
+    for (
+        let i = 0;
+        i < 5;
+        i++
+    ) {
+
+        const treasure =
+            document.createElement(
+                "button"
+            );
+
+
+        treasure.className =
+            "treasure";
+
+
+        treasure.textContent =
+            "💎";
+
+
+        treasure.style.left =
+            10 +
+            Math.random() *
+            80 +
+            "%";
+
+
+        treasure.style.top =
+            10 +
+            Math.random() *
+            75 +
+            "%";
+
+
+        treasure.onclick =
+            () => {
+
+                if (
+                    treasure.dataset.found
+                )
+                    return;
+
+
+                treasure.dataset.found =
+                    "true";
+
+
+                treasure.style.opacity =
+                    "0";
+
+
+                found++;
+
+
+                document.getElementById(
+                    "treasureScore"
+                ).textContent =
+                    found +
+                    " / 5";
+
+
+                if (
+                    found === 5
+                ) {
+
+                    clearInterval(
+                        gameTimer
+                    );
+
+
+                    addXP(150);
+
+
+                    showToast(
+                        "All treasures found! 💎 +150 XP"
+                    );
+                }
+            };
+
+
+        area.appendChild(
+            treasure
+        );
+    }
+
+
+    let time = 30;
+
+
+    gameTimer =
+        setInterval(
+            () => {
+
+                time--;
+
+
+                if (
+                    time <= 0
+                ) {
+
+                    clearInterval(
+                        gameTimer
+                    );
+
+
+                    showToast(
+                        "Time's up! 🔎"
+                    );
+                }
+
+            },
+            1000
+        );
+}
+
+
+/* =========================================================
+   TRIVIA
+   ========================================================= */
+
+function startTrivia(screen) {
+
+    const questions = [
+
+        {
+            q:
+                "What does STRAVE represent?",
+
+            options: [
+                "A social digital world",
+                "Only a game",
+                "Only a shop",
+                "Only a map"
+            ],
+
+            answer: 0
+        },
+
+        {
+            q:
+                "Where do creators build their creator life?",
+
+            options: [
+                "Creator District",
+                "Beach",
+                "Forest",
+                "Garage"
+            ],
+
+            answer: 0
+        },
+
+        {
+            q:
+                "Which place belongs to STRAVE games?",
+
+            options: [
+                "STRAVE Arcade",
+                "Business District",
+                "AI Lab",
+                "Home"
+            ],
+
+            answer: 0
+        },
+
+        {
+            q:
+                "What can users customize?",
+
+            options: [
+                "Avatar",
+                "Nothing",
+                "Only username",
+                "Only map"
+            ],
+
+            answer: 0
+        },
+
+        {
+            q:
+                "What helps users progress?",
+
+            options: [
+                "XP and achievements",
+                "Nothing",
+                "Ads only",
+                "Random points"
+            ],
+
+            answer: 0
+        }
+
+    ];
+
+
+    let current = 0;
+    let score = 0;
+
+
+    function renderQuestion() {
+
+        const q =
+            questions[current];
+
+
+        screen.innerHTML = `
+
+            <div class="game-header">
+
+                <strong>
+                    🧠 STRAVE Trivia
+                </strong>
+
+                <span>
+                    ${current + 1}
+                    /
+                    ${questions.length}
+                </span>
+
+                <button
+                    class="back-game"
+                    onclick="backToArcade()"
+                >
+                    Back
+                </button>
+
+            </div>
+
+
+            <div
+                class="game-area trivia-box"
+            >
+
+                <div class="trivia-question">
+                    ${q.q}
+                </div>
+
+                ${q.options
+                    .map(
+                        (option, index) =>
+                            `
+
+                            <button
+                                class="trivia-option"
+                                onclick="answerTrivia(${index})"
+                            >
+                                ${option}
+                            </button>
+
+                            `
+                    )
+                    .join("")}
+
+            </div>
+        `;
+    }
+
+
+    window.answerTrivia =
+        function(index) {
+
+            if (
+                index ===
+                questions[current].answer
+            ) {
+
+                score++;
+
+                showToast(
+                    "Correct! ✨"
+                );
+
+            } else {
+
+                showToast(
+                    "Not quite!"
+                );
+            }
+
+
+            current++;
+
+
+            if (
+                current >=
+                questions.length
+            ) {
+
+                addXP(
+                    score * 20
+                );
+
+
+                screen.innerHTML = `
+
+                    <div
+                        class="game-area trivia-box"
+                    >
+
+                        <h2>
+                            Trivia Complete 🎉
+                        </h2>
+
+                        <p
+                            style="margin-top:10px;"
+                        >
+                            Your score:
+                            <strong>
+                                ${score}/${questions.length}
+                            </strong>
+                        </p>
+
+                        <button
+                            class="primary-btn"
+                            onclick="backToArcade()"
+                        >
+                            Back to Arcade
+                        </button>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            renderQuestion();
+        };
+
+
+    renderQuestion();
+}
+
+
+/* =========================================================
+   OBSTACLE RUN
+   ========================================================= */
+
+function startObstacle(screen) {
+
+    screen.innerHTML = `
+
+        <div class="game-header">
+
+            <strong>
+                🏃‍♀️ Obstacle Run
+            </strong>
+
+            <span id="runScore">
+                0
+            </span>
+
+            <button
+                class="back-game"
+                onclick="backToArcade()"
+            >
+                Back
+            </button>
+
+        </div>
+
+
+        <div
+            class="game-area"
+            id="runnerArea"
+        >
+
+            <div class="runner-world">
+
+                <div
+                    class="runner"
+                    id="runner"
+                >
+                    🧶
+                </div>
+
+                <div
+                    class="runner-ground"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <p style="margin-top:10px;opacity:.6;">
+            Tap / press Space to jump.
+        </p>
+    `;
+
+
+    const runner =
+        document.getElementById(
+            "runner"
+        );
+
+
+    const area =
+        document.getElementById(
+            "runnerArea"
+        );
+
+
+    let jumping = false;
+    let score = 0;
+
+
+    function jump() {
+
+        if (jumping)
+            return;
+
+
+        jumping = true;
+
+
+        runner.style.bottom =
+            "150px";
+
+
+        setTimeout(
+            () => {
+
+                runner.style.bottom =
+                    "45px";
+
+                jumping = false;
+
+            },
+            600
+        );
+    }
+
+
+    function keyHandler(e) {
+
+        if (
+            e.code ===
+            "Space"
+        ) {
+
+            e.preventDefault();
+
+            jump();
+        }
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        keyHandler
+    );
+
+
+    area.addEventListener(
+        "click",
+        jump
+    );
+
+
+    gameTimer =
+        setInterval(
+            () => {
+
+                score++;
+
+
+                document.getElementById(
+                    "runScore"
+                ).textContent =
+                    score;
+
+
+                const obstacle =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                obstacle.className =
+                    "run-obstacle";
+
+
+                obstacle.textContent =
+                    "🪨";
+
+
+                area.appendChild(
+                    obstacle
+                );
+
+
+                let x = -60;
+
+
+                const movement =
+                    setInterval(
+                        () => {
+
+                            x += 6;
+
+
+                            obstacle.style.right =
+                                x +
+                                "px";
+
+
+                            if (
+                                x >
+                                900
+                            ) {
+
+                                obstacle.remove();
+
+                                clearInterval(
+                                    movement
+                                );
+                            }
+
+                        },
+                        40
+                    );
+
+            },
+            1200
+        );
+
+
+    setTimeout(
+        () => {
+
+            clearInterval(
+                gameTimer
+            );
+
+
+            document.removeEventListener(
+                "keydown",
+                keyHandler
+            );
+
+
+            addXP(120);
+
+
+            showToast(
+                "Run complete! 🏃‍♀️ +120 XP"
+            );
+
+        },
+        15000
+    );
+}
+
+
+/* =========================================================
+   AVATAR FASHION
+   ========================================================= */
+
+function startFashion(screen) {
+
+    let selected =
+        "🧶";
+
+
+    screen.innerHTML = `
+
+        <div class="game-header">
+
+            <strong>
+                👗 Avatar Challenge
+            </strong>
+
+            <span>
+                Style Score
+            </span>
+
+            <button
+                class="back-game"
+                onclick="backToArcade()"
+            >
+                Back
+            </button>
+
+        </div>
+
+
+        <div class="game-area">
+
+            <div
+                class="fashion-avatar"
+                id="fashionAvatar"
+            >
+                🧶
+            </div>
+
+
+            <div
+                class="fashion-options"
+            >
+
+                <button
+                    onclick="chooseFashion('👗')"
+                >
+                    👗
+                </button>
+
+                <button
+                    onclick="chooseFashion('🧥')"
+                >
+                    🧥
+                </button>
+
+                <button
+                    onclick="chooseFashion('👑')"
+                >
+                    👑
+                </button>
+
+                <button
+                    onclick="chooseFashion('🎀')"
+                >
+                    🎀
+                </button>
+
+                <button
+                    onclick="chooseFashion('🕶️')"
+                >
+                    🕶️
+                </button>
+
+                <button
+                    onclick="chooseFashion('💎')"
+                >
+                    💎
+                </button>
+
+            </div>
+
+
+            <button
+                class="primary-btn"
+                onclick="finishFashion()"
+            >
+                ✨ Finish Look
+            </button>
+
+        </div>
+    `;
+
+
+    window.chooseFashion =
+        function(item) {
+
+            selected =
+                item;
+
+
+            document.getElementById(
+                "fashionAvatar"
+            ).textContent =
+                "🧶 " +
+                item;
+        };
+
+
+    window.finishFashion =
+        function() {
+
+            addXP(100);
+
+
+            showToast(
+                "Amazing look! 👗 +100 XP"
+            );
+        };
+}
