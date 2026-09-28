@@ -1,152 +1,422 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="STRAVE — Business Development, Social Media Analytics & Organic Growth Guidance.">
-<title>STRAVE — Growth, decoded.</title>
-<style>
-:root{
-  --bg:#06070a;--panel:#0c0f14;--text:#f4f7fb;--muted:#8c95a5;
-  --line:rgba(255,255,255,.10);--a:#7c5cff;--b:#18e6c1;--c:#ff4fd8;
-  --glow:0 0 70px rgba(124,92,255,.25);
-}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;overflow-x:hidden}
-button,a{font:inherit}a{color:inherit;text-decoration:none}
-#app{min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(124,92,255,.12),transparent 28%),radial-gradient(circle at 10% 30%,rgba(24,230,193,.07),transparent 25%),var(--bg)}
-.noise{position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.grid{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,#000,transparent 75%);opacity:.5}
-nav{position:fixed;z-index:20;top:18px;left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;padding:12px 14px 12px 18px;border:1px solid var(--line);background:rgba(8,10,14,.68);backdrop-filter:blur(18px);border-radius:999px}
-.logo{font-weight:900;letter-spacing:.18em;font-size:14px}.logo span{color:var(--b)}
-.navlinks{display:flex;gap:22px;color:#b7bfcc;font-size:12px}.navlinks a:hover{color:#fff}
-.navcta{border:0;border-radius:999px;padding:10px 15px;background:#fff;color:#050608;font-weight:800;font-size:12px}
-section{position:relative;width:min(1180px,calc(100% - 34px));margin:auto}
-.hero{min-height:100svh;display:grid;place-items:center;padding:130px 0 80px;overflow:hidden}
-.hero:before{content:"";position:absolute;width:560px;height:560px;border-radius:50%;background:conic-gradient(from 90deg,var(--a),var(--b),var(--c),var(--a));filter:blur(90px);opacity:.12;animation:spin 14s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}} @keyframes float{50%{transform:translateY(-13px)}} @keyframes pulse{50%{box-shadow:0 0 0 14px rgba(24,230,193,0)}}
-.heroInner{position:relative;text-align:center;max-width:920px}
-.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.035);color:#bfc7d5;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--b);box-shadow:0 0 16px var(--b);animation:pulse 2s infinite}
-h1{font-size:clamp(58px,11vw,150px);line-height:.82;letter-spacing:-.075em;margin:28px 0 22px;font-weight:950}
-.glitch{position:relative;display:inline-block;text-shadow:0 0 35px rgba(124,92,255,.18)}
-.glitch:after{content:"STRAVE";position:absolute;inset:0;transform:translate(2px,1px);clip-path:inset(54% 0 0 0);color:var(--b);opacity:.55;animation:gl 3s infinite}
-@keyframes gl{0%,88%,100%{transform:translate(2px,1px)}90%{transform:translate(-5px,0)}92%{transform:translate(4px,-2px)}}
-.hero p{max-width:650px;margin:auto;color:#a9b1bf;font-size:clamp(16px,2.2vw,20px);line-height:1.65}
-.heroActions{display:flex;justify-content:center;gap:12px;margin-top:30px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);padding:14px 18px;border-radius:14px;background:#fff;color:#07080a;font-weight:850;cursor:pointer;transition:.25s}
-.btn:hover{transform:translateY(-3px);box-shadow:var(--glow)}.btn.alt{background:rgba(255,255,255,.045);color:#fff}
-.orbit{height:180px;position:relative;margin:40px auto 0;max-width:650px}
-.ring{position:absolute;left:50%;top:50%;width:330px;height:100px;border:1px solid rgba(255,255,255,.14);border-radius:50%;transform:translate(-50%,-50%) rotate(-12deg);box-shadow:0 0 80px rgba(124,92,255,.12)}
-.node{position:absolute;padding:7px 10px;border:1px solid var(--line);background:rgba(8,10,14,.75);border-radius:999px;font-size:10px;color:#cbd2de;backdrop-filter:blur(10px);animation:float 4s ease-in-out infinite}
-.n1{left:8%;top:40%}.n2{right:7%;top:18%;animation-delay:1s}.n3{right:20%;bottom:0;animation-delay:2s}.n4{left:18%;bottom:5%;animation-delay:.5s}
-.section{padding:120px 0}.kicker{color:var(--b);font:800 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.16em;text-transform:uppercase}.title{font-size:clamp(38px,6vw,76px);line-height:.95;letter-spacing:-.055em;margin:14px 0 18px}.lead{color:#9ca5b4;max-width:680px;line-height:1.7}
-.manifesto{display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center}
-.console{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));border-radius:24px;padding:18px;box-shadow:var(--glow)}
-.termbar{display:flex;gap:6px;padding-bottom:15px}.termbar i{width:8px;height:8px;border-radius:50%;background:#555}.term{font:12px/1.9 ui-monospace,monospace;color:#aeb8c7}.term b{color:var(--b)}.term em{color:var(--c);font-style:normal}.cursor{display:inline-block;width:7px;height:14px;background:var(--b);vertical-align:-2px;animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:45px}.card{min-height:260px;padding:25px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.025);position:relative;overflow:hidden;transition:.35s}.card:hover{transform:translateY(-8px);border-color:rgba(255,255,255,.24);box-shadow:var(--glow)}.card:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-80px;top:-80px;background:var(--a);filter:blur(55px);opacity:.18}.num{font:11px ui-monospace;color:#707989}.icon{font-size:30px;margin:34px 0 20px}.card h3{margin:0 0 10px;font-size:20px}.card p{color:#8f98a8;line-height:1.6;font-size:14px}
-.system{margin-top:45px;border:1px solid var(--line);border-radius:28px;padding:20px;background:rgba(255,255,255,.02);overflow:hidden}.flow{display:flex;align-items:center;gap:8px;overflow:auto;padding:28px 10px}.step{min-width:150px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#0b0e13}.step strong{display:block;font-size:12px;letter-spacing:.08em}.step small{display:block;color:#707989;margin-top:7px}.arrow{color:var(--b);font-size:20px}
-.characterZone{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}.botStage{min-height:430px;border:1px solid var(--line);border-radius:28px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 40%,rgba(124,92,255,.18),transparent 40%),#080b10}.botStage:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 49%,rgba(24,230,193,.06) 50%,transparent 51%);background-size:100% 7px;opacity:.3;pointer-events:none}
-.bot{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:170px;height:190px;animation:float 4s ease-in-out infinite}.head{width:140px;height:105px;margin:auto;border:2px solid #b9c5d6;border-radius:42px;background:linear-gradient(145deg,#1a202b,#090c11);box-shadow:0 0 45px rgba(124,92,255,.35)}.eye{display:flex;justify-content:center;gap:28px;padding-top:38px}.eye i{width:14px;height:20px;border-radius:8px;background:var(--b);box-shadow:0 0 18px var(--b)}.body{width:105px;height:72px;margin:-1px auto;border:2px solid #6e7b8e;border-radius:28px 28px 40px 40px;background:#10151d}.antenna{position:absolute;width:3px;height:25px;background:#aeb9c8;left:50%;top:-23px}.antenna:after{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:var(--c);left:-3px;top:-5px;box-shadow:0 0 18px var(--c)}
-.chat{border:1px solid var(--line);border-radius:28px;background:#0b0e13;overflow:hidden}.chatHead{padding:18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}.status{width:9px;height:9px;background:var(--b);border-radius:50%}.chatHead small{color:#778191}.messages{height:280px;padding:18px;overflow:auto;display:flex;flex-direction:column;gap:10px}.msg{max-width:82%;padding:11px 13px;border-radius:14px;background:#151a22;color:#c8d0dc;font-size:13px;line-height:1.5}.msg.you{align-self:flex-end;background:#fff;color:#08090b}.chatInput{display:flex;border-top:1px solid var(--line)}.chatInput input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;padding:16px}.chatInput button{border:0;background:var(--b);padding:0 18px;font-weight:900;cursor:pointer}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:45px}.metric{padding:22px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.025)}.metric b{font-size:34px;letter-spacing:-.05em}.metric span{display:block;color:#788291;font-size:12px;margin-top:7px}
-.contact{padding:140px 0 100px;text-align:center}.contact .title{max-width:850px;margin:14px auto 25px}.footer{padding:25px 0 40px;color:#677181;font-size:11px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px}
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}.reveal.show{opacity:1;transform:none}
-@media(max-width:760px){nav{top:10px}.navlinks{display:none}.hero{padding-top:115px}.manifesto,.characterZone{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.section{padding:85px 0}.orbit{transform:scale(.82)}.botStage{min-height:350px}.footer{flex-direction:column}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>STRAVE WORLD</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
+
 <body>
-<div id="app">
-<div class="noise"></div><div class="grid"></div>
-<nav><a class="logo" href="#top">STRA<span>V</span>E</a><div class="navlinks"><a href="#work">SYSTEM</a><a href="#services">SERVICES</a><a href="#ai">STRAVE AI</a><a href="#contact">CONTACT</a></div><a class="navcta" href="#contact">LET'S TALK ↗</a></nav>
 
-<main id="top">
-<section class="hero">
-<div class="heroInner">
-<div class="eyebrow"><i class="dot"></i> DIGITAL GROWTH INTELLIGENCE</div>
-<h1><span class="glitch">STRAVE</span></h1>
-<p>Business development, social media analytics & organic growth guidance — engineered around how people <b>scroll, feel, trust and act.</b></p>
-<div class="heroActions"><a class="btn" href="#services">EXPLORE THE SYSTEM ↓</a><a class="btn alt" href="#ai">MEET STRAVE AI</a></div>
-<div class="orbit"><div class="ring"></div><span class="node n1">AUDIENCE</span><span class="node n2">DATA</span><span class="node n3">PSYCHOLOGY</span><span class="node n4">GROWTH</span></div>
-</div>
-</section>
+  <!-- LOADING -->
+  <div id="loading">
+    <div class="loading-logo">STRAVE</div>
+    <div class="loading-text">Entering your world...</div>
+    <div class="loader"></div>
+  </div>
 
-<section class="section reveal">
-<div class="manifesto">
-<div><div class="kicker">01 / THE SHIFT</div><h2 class="title">Stop guessing.<br><span style="color:var(--b)">Start decoding.</span></h2><p class="lead">Likes are signals. Watch time is a signal. Saves, shares, comments, drop-offs and DMs are signals. STRAVE turns those signals into clearer decisions for content and business growth.</p></div>
-<div class="console"><div class="termbar"><i></i><i></i><i></i></div><div class="term">
-<span>strave@system:~$</span> analyze audience<br>
-→ attention <b>captured</b><br>
-→ intent <b>mapped</b><br>
-→ content pattern <b>decoded</b><br>
-→ growth loop <em>optimizing</em><br><br>
-<span>strave@system:~$</span> build strategy <span class="cursor"></span>
-</div></div>
-</div>
-</section>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-name">STRAVE</div>
+      <div class="brand-sub">YOUR DIGITAL WORLD</div>
+    </div>
 
-<section class="section reveal" id="services">
-<div class="kicker">02 / CORE MODULES</div><h2 class="title">Three lenses.<br>One growth system.</h2>
-<div class="cards">
-<article class="card"><div class="num">01</div><div class="icon">◈</div><h3>Social Media Analytics</h3><p>Read the behaviour behind the numbers — content patterns, audience signals, retention and what deserves another iteration.</p></article>
-<article class="card"><div class="num">02</div><div class="icon">⌁</div><h3>Business Development</h3><p>Connect attention to opportunity with sharper positioning, audience understanding and practical growth conversations.</p></article>
-<article class="card"><div class="num">03</div><div class="icon">✦</div><h3>Growth Guidance</h3><p>A strategic layer for creators and brands that want to grow organically with intention instead of posting blindly.</p></article>
-</div>
-</section>
+    <div class="world-status">
+      <span class="online-dot"></span>
+      WORLD ONLINE
+    </div>
 
-<section class="section reveal" id="work">
-<div class="kicker">03 / THE STRAVE ENGINE</div><h2 class="title">A loop built to learn.</h2>
-<div class="system"><div class="flow">
-<div class="step"><strong>01 ANALYZE</strong><small>Find signals.</small></div><div class="arrow">→</div>
-<div class="step"><strong>02 UNDERSTAND</strong><small>Find meaning.</small></div><div class="arrow">→</div>
-<div class="step"><strong>03 STRATEGIZE</strong><small>Choose direction.</small></div><div class="arrow">→</div>
-<div class="step"><strong>04 CREATE</strong><small>Ship the idea.</small></div><div class="arrow">→</div>
-<div class="step"><strong>05 OPTIMIZE</strong><small>Learn again.</small></div>
-</div></div>
-<div class="metrics">
-<div class="metric"><b>DATA</b><span>without the noise</span></div>
-<div class="metric"><b>HUMAN</b><span>behaviour at the centre</span></div>
-<div class="metric"><b>ORGANIC</b><span>built for sustainable systems</span></div>
-<div class="metric"><b>ITERATIVE</b><span>learn → refine → repeat</span></div>
-</div>
-</section>
+    <button class="profile-btn" onclick="openPanel('avatarPanel')">
+      <span>🧶</span>
+      <span>MY WORLD</span>
+    </button>
+  </header>
 
-<section class="section reveal" id="ai">
-<div class="kicker">04 / STRAVE AI</div><h2 class="title">Your growth co-pilot<br><span style="color:var(--c)">is online.</span></h2>
-<div class="characterZone">
-<div class="botStage"><div class="bot"><div class="antenna"></div><div class="head"><div class="eye"><i></i><i></i></div></div><div class="body"></div></div></div>
-<div class="chat">
-<div class="chatHead"><span class="status"></span><div><b>STRAVE AI</b><br><small>Strategy interface · online</small></div></div>
-<div class="messages" id="messages"><div class="msg">Hey. I'm Strave AI. Ask me about your content, audience, positioning or organic growth.</div><div class="msg">Try: <b>“Why are people watching but not following?”</b></div></div>
-<form class="chatInput" id="chatForm"><input id="chatInput" placeholder="Ask Strave AI…" autocomplete="off"><button>↗</button></form>
-</div>
-</div>
-</section>
+  <!-- 3D WORLD -->
+  <main id="world"></main>
 
-<section class="contact reveal" id="contact">
-<div class="kicker">05 / NEXT MOVE</div><h2 class="title">Your audience is already watching.<br><span style="color:var(--b)">What happens next?</span></h2>
-<p class="lead" style="margin:0 auto 28px">Let's turn scattered attention into a system you can actually understand and build on.</p>
-<a class="btn" href="mailto:hello@strave.in">START A CONVERSATION ↗</a>
-</section>
-</main>
-<footer class="footer"><span>© 2026 STRAVE</span><span>BUSINESS DEVELOPMENT · SOCIAL ANALYTICS · GROWTH GUIDANCE</span></footer>
-</div>
-<script>
-const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(x=>observer.observe(x));
-const form=document.getElementById('chatForm'), input=document.getElementById('chatInput'), messages=document.getElementById('messages');
-const replies=[
-"Start with the signal: check whether viewers are dropping before the follow moment. Then compare the posts that earned profile visits against the ones that only earned views.",
-"Think in three layers: attention, trust and action. A strong hook can win attention; a clear point of view builds trust; a specific next step gives that attention somewhere to go.",
-"Don't optimize only for reach. Look at saves, shares, profile visits, follows and meaningful DMs together. The pattern is more useful than one number.",
-"Tell me the platform, your niche and what you want people to do after consuming your content. I can help you frame the problem."
-];
-form.addEventListener('submit',e=>{
- e.preventDefault(); const q=input.value.trim(); if(!q)return;
- const you=document.createElement('div');you.className='msg you';you.textContent=q;messages.appendChild(you);input.value='';
- setTimeout(()=>{const m=document.createElement('div');m.className='msg';m.innerHTML=replies[Math.floor(Math.random()*replies.length)];messages.appendChild(m);messages.scrollTop=messages.scrollHeight},450);
-});
-</script>
+  <!-- LOCATION -->
+  <div class="location-pill">
+    📍 <span id="locationName">My Amigurumi Home</span>
+  </div>
+
+  <!-- WORLD CONTROLS -->
+  <div class="world-controls">
+    <button onclick="toggleDayNight()">☀️</button>
+    <button onclick="openPanel('mapPanel')">🗺️</button>
+    <button onclick="openArcade()">🎮</button>
+  </div>
+
+  <!-- XP -->
+  <div class="xp-box">
+    <div class="xp-top">
+      <span>STRAVE XP</span>
+      <strong id="xpText">0 XP</strong>
+    </div>
+
+    <div class="xp-bar">
+      <div id="xpFill"></div>
+    </div>
+
+    <small id="levelText">Level 1</small>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+
+    <button onclick="goHome()">
+      <span>🏠</span>
+      <small>Home</small>
+    </button>
+
+    <button onclick="openPanel('friendsPanel')">
+      <span>👯</span>
+      <small>Friends</small>
+    </button>
+
+    <button onclick="openArcade()">
+      <span>🎮</span>
+      <small>Arcade</small>
+    </button>
+
+    <button onclick="openPanel('creatorPanel')">
+      <span>✨</span>
+      <small>Creator</small>
+    </button>
+
+    <button onclick="openPanel('businessPanel')">
+      <span>💼</span>
+      <small>Business</small>
+    </button>
+
+    <button onclick="openPanel('aiPanel')">
+      <span>🤖</span>
+      <small>STRAVE AI</small>
+    </button>
+
+  </nav>
+
+  <!-- AVATAR PANEL -->
+  <section class="panel" id="avatarPanel">
+
+    <button class="close-btn" onclick="closePanels()">×</button>
+
+    <div class="panel-icon">🧶</div>
+
+    <h2>My Avatar</h2>
+    <p class="muted">This is your identity inside STRAVE WORLD.</p>
+
+    <div class="avatar-preview">
+      <div class="big-avatar">🧶</div>
+    </div>
+
+    <div class="profile-info">
+      <div>
+        <span>Name</span>
+        <strong>Your STRAVE Avatar</strong>
+      </div>
+
+      <div>
+        <span>Status</span>
+        <strong>Exploring STRAVE WORLD</strong>
+      </div>
+
+      <div>
+        <span>Level</span>
+        <strong id="avatarLevel">Level 1</strong>
+      </div>
+    </div>
+
+    <button class="primary-btn" onclick="addXP(50)">
+      ✨ Earn 50 XP
+    </button>
+
+  </section>
+
+  <!-- FRIENDS -->
+  <section class="panel" id="friendsPanel">
+
+    <button class="close-btn" onclick="closePanels()">×</button>
+
+    <div class="panel-icon">👯</div>
+
+    <h2>Friends Village</h2>
+    <p class="muted">
+      Meet people, discover profiles and build your social life.
+    </p>
+
+    <div class="friend-card">
+      <div class="friend-avatar">🧸</div>
+      <div>
+        <strong>Mia</strong>
+        <span>Exploring Forest</span>
+      </div>
+      <button onclick="showToast('Friend request sent!')">＋</button>
+    </div>
+
+    <div class="friend-card">
+      <div class="friend-avatar">🐰</div>
+      <div>
+        <strong>Luna</strong>
+        <span>At Creator District</span>
+      </div>
+      <button onclick="showToast('Profile opened!')">→</button>
+    </div>
+
+    <div class="friend-card">
+      <div class="friend-avatar">🐻</div>
+      <div>
+        <strong>Aria</strong>
+        <span>At STRAVE Arcade</span>
+      </div>
+      <button onclick="showToast('Invite sent!')">＋</button>
+    </div>
+
+  </section>
+
+  <!-- CREATOR -->
+  <section class="panel" id="creatorPanel">
+
+    <button class="close-btn" onclick="closePanels()">×</button>
+
+    <div class="panel-icon">✨</div>
+
+    <h2>Creator District</h2>
+
+    <p class="muted">
+      Your creator life inside STRAVE.
+    </p>
+
+    <div class="feature-card">
+      <span>💡</span>
+      <div>
+        <strong>Content Ideas</strong>
+        <p>Discover ideas for your next post or reel.</p>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <span>📊</span>
+      <div>
+        <strong>Creator Analytics</strong>
+        <p>Understand your audience and content performance.</p>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <span>🚀</span>
+      <div>
+        <strong>Growth Tools</strong>
+        <p>Plan your organic creator growth.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- BUSINESS -->
+  <section class="panel" id="businessPanel">
+
+    <button class="close-btn" onclick="closePanels()">×</button>
+
+    <div class="panel-icon">💼</div>
+
+    <h2>Business District</h2>
+
+    <p class="muted">
+      Build, connect and grow your business inside STRAVE.
+    </p>
+
+    <div class="feature-card">
+      <span>🤝</span>
+      <div>
+        <strong>Networking</strong>
+        <p>Meet creators, founders and professionals.</p>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <span>📈</span>
+      <div>
+        <strong>Business Growth</strong>
+        <p>Discover collaboration and growth opportunities.</p>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <span>🧠</span>
+      <div>
+        <strong>Strategy Space</strong>
+        <p>Plan ideas, projects and business moves.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- AI -->
+  <section class="panel" id="aiPanel">
+
+    <button class="close-btn" onclick="closePanels()">×</button>
+
+    <div class="panel-icon">🤖</div>
+
+    <h2>STRAVE AI</h2>
+
+    <p class="muted">
+      Your AI companion inside STRAVE WORLD.
+    </p>
+
+    <div class="ai-chat" id="aiChat">
+      <div class="ai-message">
+        Hey! I'm STRAVE AI. Ask me about content, growth or business.
+      </div>
+    </div>
+
+    <div class="ai-input">
+      <input
+        id="aiInput"
+        placeholder="Ask STRAVE AI..."
+        onkeydown="if(event.key==='Enter') askAI()"
+      >
+
+      <button onclick="askAI()">→</button>
+    </div>
+
+  </section>
+
+  <!-- WORLD MAP -->
+  <section class="panel map-panel" id="mapPanel">
+
+    <button class="close-btn" onclick="closePanels()">×</button>
+
+    <div class="panel-icon">🗺️</div>
+
+    <h2>STRAVE WORLD MAP</h2>
+
+    <p class="muted">
+      Explore the different districts of your world.
+    </p>
+
+    <div class="map-grid">
+
+      <button onclick="travelTo('My Amigurumi Home')">
+        🏠
+        <span>Home</span>
+      </button>
+
+      <button onclick="travelTo('Friends Village')">
+        👯
+        <span>Friends Village</span>
+      </button>
+
+      <button onclick="travelTo('Creator District')">
+        ✨
+        <span>Creator District</span>
+      </button>
+
+      <button onclick="travelTo('Business District')">
+        💼
+        <span>Business District</span>
+      </button>
+
+      <button onclick="travelTo('AI Lab')">
+        🤖
+        <span>AI Lab</span>
+      </button>
+
+      <button onclick="travelTo('Discovery Forest')">
+        🌲
+        <span>Discovery Forest</span>
+      </button>
+
+      <button onclick="travelTo('Beach')">
+        🏖️
+        <span>Beach</span>
+      </button>
+
+      <button onclick="travelTo('STRAVE Arcade')">
+        🎮
+        <span>STRAVE Arcade</span>
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- ARCADE -->
+  <section class="arcade" id="arcadePanel">
+
+    <button class="close-btn" onclick="closeArcade()">×</button>
+
+    <div id="arcadeHome">
+
+      <div class="panel-icon">🎮</div>
+
+      <h1>STRAVE ARCADE</h1>
+
+      <p>
+        Play. Explore. Earn XP. Unlock your world.
+      </p>
+
+      <div class="games-grid">
+
+        <button class="game-card" onclick="startGame('racing')">
+          <div class="game-art">🏎️</div>
+          <strong>Amigurumi Racing</strong>
+          <span>Dodge obstacles & race.</span>
+          <small>+100 XP</small>
+        </button>
+
+        <button class="game-card" onclick="startGame('treasure')">
+          <div class="game-art">💎</div>
+          <strong>Treasure Hunt</strong>
+          <span>Find hidden treasures.</span>
+          <small>+150 XP</small>
+        </button>
+
+        <button class="game-card" onclick="startGame('trivia')">
+          <div class="game-art">🧠</div>
+          <strong>STRAVE Trivia</strong>
+          <span>Test your knowledge.</span>
+          <small>+100 XP</small>
+        </button>
+
+        <button class="game-card" onclick="startGame('obstacle')">
+          <div class="game-art">🏃‍♀️</div>
+          <strong>Obstacle Run</strong>
+          <span>Jump and survive.</span>
+          <small>+120 XP</small>
+        </button>
+
+        <button class="game-card" onclick="startGame('fashion')">
+          <div class="game-art">👗</div>
+          <strong>Avatar Challenge</strong>
+          <span>Create your best look.</span>
+          <small>+100 XP</small>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="gameScreen"></div>
+
+  </section>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
